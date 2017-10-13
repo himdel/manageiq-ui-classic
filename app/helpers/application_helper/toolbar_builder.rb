@@ -250,9 +250,10 @@ class ApplicationHelper::ToolbarBuilder
       :enabled   => input[:enabled],
       :klass     => ApplicationHelper::Button::ButtonWithoutRbacCheck,
       :url       => "button",
-      :url_parms => "?id=#{record_id}&button_id=#{button_id}&cls=#{model}&pressed=custom_button&desc=#{button_name}"
+      :url_parms => "?id=#{record_id}&button_id=#{button_id}&cls=#{model}&pressed=custom_button&desc=#{button_name}",
     }
     button[:text] = button_name if input[:text_display]
+    button[:send_checked] = true if record_id == 'LIST'
     button
   end
 
