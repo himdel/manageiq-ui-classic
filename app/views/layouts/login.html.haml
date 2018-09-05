@@ -7,6 +7,7 @@
     = stylesheet_link_tag 'application'
     = stylesheet_link_tag '/custom.css'
     = javascript_dependencies
+    = javascript_pack_tag 'manageiq-ui-classic/login'
     - if Rails.env.development?
       = javascript_include_tag 'miq_debug'
       = stylesheet_link_tag 'miq_debug'
@@ -16,7 +17,7 @@
   %body{:class => ::Settings.server.custom_login_logo ? 'whitelabel' : ''}
     - if MiqServer.my_server(true).logon_status == :starting
       :javascript
-        self.setTimeout("miqAjax('/dashboard/login_retry')",10000);
+        self.setTimeout("miqAjax('/dashboard/login_retry')", 10000);
     - else
       = yield
 
