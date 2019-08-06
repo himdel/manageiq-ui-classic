@@ -34,7 +34,42 @@ module.exports = [
   },
 
   {
+    test: /\.(scss|sass)$/i,
+    include: /manageiq-ui-service/,
+    use: [
+      'style-loader',
+      'css-loader?importLoaders=1&sourceMap=true',
+      {
+        loader: 'sass-loader',
+        options: {
+          data: '$img-base-path: /ui/service',
+          sourceMap: true,
+          includePaths: [
+            '/home/himdel/manageiq-ui-service/client/assets/sass',
+            '/home/himdel/manageiq-ui-service/node_modules/bootstrap-sass/assets/stylesheets',
+            '/home/himdel/manageiq-ui-service/node_modules/patternfly/dist/sass/patternfly',
+            '/home/himdel/manageiq-ui-service/node_modules/font-awesome/scss',
+            '/home/himdel/manageiq-ui-service/node_modules/@manageiq/font-fabulous/assets/stylesheets',
+          ],
+        },
+      },
+    ],
+  },
+
+  {
+    test: /\.css$/i,
+    include: /manageiq-ui-service/,
+    use: [
+      'style-loader',
+      'css-loader?importLoaders=0&sourceMap=true',
+      // 'css-loader?importLoaders=1&sourceMap=true',
+      // 'postcss-loader',
+    ],
+  },
+
+  {
     test: /\.(scss|sass|css)$/i,
+    exclude: /manageiq-ui-service/,
     use: [
       'style-loader',
       {
@@ -69,5 +104,14 @@ module.exports = [
         name: '[name]-[hash].[ext]',
       }
     }]
+  },
+
+  // ui-service: html loaders: populate angular's templateCache
+  {
+    test: /\/client\/.*\.html$/,
+    use: [
+      'ngtemplate-loader?relativeTo=manageiq-ui-service/client/',
+      'html-loader?attrs=false&minimize=true'
+    ]
   },
 ];
