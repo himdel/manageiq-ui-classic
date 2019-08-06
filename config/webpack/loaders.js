@@ -17,10 +17,13 @@ if (env.WEBPACK_VERBOSE) {
 module.exports = [
   {
     test: /\.(js|jsx)$/,
-    use: [{
-      loader: 'babel-loader',
-      options: babelOptions,
-    }],
+    use: [
+      'ng-annotate-loader',
+      {
+        loader: 'babel-loader',
+        options: babelOptions,
+      }
+    ],
     exclude: /node_modules/,
   },
 
