@@ -999,77 +999,6 @@ describe ApplicationHelper do
     end
   end
 
-  describe '#li_link' do
-    context 'with :if condition true' do
-      let(:args) do
-        {:if         => true,
-         :controller => "ems_infra",
-         :record_id  => 1}
-      end
-
-      subject { li_link(args) }
-
-      it "returns HTML with enabled links" do
-        expect(subject).to_not have_selector('li.disabled')
-      end
-    end
-
-    context 'with :if condition false' do
-      let(:args) do
-        {:if        => false,
-         :record_id => 1}
-      end
-
-      subject { li_link(args) }
-
-      it 'renders disabled link_to' do
-        expect(subject).to have_selector('li.disabled')
-      end
-    end
-
-    context 'with :record passed in as an argument' do
-      let(:args) do
-        {:if         => true,
-         :controller => 'availability_zone',
-         :record     => FactoryBot.create(:availability_zone),
-         :action     => 'show_list',
-         :display    => 'something',
-         :title      => 'sometitle'}
-      end
-
-      subject { li_link(args) }
-
-      it 'renders url correctly' do
-        expect(subject).to have_xpath("//a", :text => %r{\/availability_zone\/show_list\/\d+\?display=something})
-      end
-
-      it 'renders title correctly' do
-        expect(subject).to have_xpath("//a[@title = 'sometitle']")
-      end
-    end
-
-    context 'with :record_id passed in as an argument' do
-      let(:args) do
-        {:if         => true,
-         :controller => 'availability_zone',
-         :record_id  => FactoryBot.create(:availability_zone).id,
-         :action     => 'show_list',
-         :display    => 'something',
-         :title      => 'sometitle'}
-      end
-
-      subject { li_link(args) }
-
-      it 'renders url correctly' do
-        expect(subject).to have_xpath("//a", :text => %r{\/availability_zone\/show_list\/\d+\?display=something})
-      end
-
-      it 'renders title correctly' do
-        expect(subject).to have_xpath("//a[@title = 'sometitle']")
-      end
-    end
-  end
-
   describe '#view_to_association' do
     [%w(AdvancedSetting advanced_settings), %w(OrchestrationStackOutput outputs),
      %w(OrchestrationStackParameter parameters), %w(OrchestrationStackResource resources), %w(Filesystem filesystems),
@@ -1090,17 +1019,6 @@ describe ApplicationHelper do
           ManageIQ::Providers::Vmware::InfraManager::Host.new
         )
       ).to eq('host_services')
-    end
-  end
-
-  describe "#multiple_relationship_link" do
-    context "When record is a Container Provider" do
-      it "Uses polymorphic_path for the show action" do
-        stub_user(:features => :all)
-        ems = FactoryBot.create(:ems_kubernetes)
-        ContainerProject.create(:ext_management_system => ems, :name => "Test Project")
-        expect(helper.multiple_relationship_link(ems, "container_project")).to eq("<li><a title=\"Show Projects\" href=\"/ems_container/#{ems.id}?display=container_projects\">Projects (1)</a></li>")
-      end
     end
   end
 
